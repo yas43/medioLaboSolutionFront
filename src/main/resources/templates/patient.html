@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Liste des Patients</title>
+  <meta charset="UTF-8">
+<!--  <link rel="stylesheet" href="/css/style.css">-->
+</head>
+<style>
+  /* General page styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    color: #0056b3;
+    margin-bottom: 20px;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    max-width: 1000px;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+}
+
+th {
+    background-color: #0056b3;
+    color: #fff;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f4f4f9;
+}
+
+tr:hover {
+    background-color: #e9ecef;
+}
+
+td {
+    border-bottom: 1px solid #ddd;
+}
+
+/* Action links styling */
+td a {
+    color: #0056b3;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+td a:hover {
+    text-decoration: underline;
+}
+
+/* Add new patient link */
+a[href="/patients/add"] {
+    color: #fff;
+    background-color: #0056b3;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+a[href="/patients/add"]:hover {
+    background-color: #004494;
+}
+
+</style>
+<body>
+<h1>Liste des Patients</h1>
+
+<table>
+  <thead>
+  <tr>
+    <th>Prénom</th>
+    <th>Nom</th>
+    <th>Date de naissance</th>
+    <th>Genre</th>
+    <th>Adresse</th>
+    <th>Telephone</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="patient : ${patients}">
+    <td th:text="${patient.firstname}"></td>
+    <td th:text="${patient.lastname}"></td>
+    <td th:text="${patient.birthdate}"></td>
+    <td th:text="${patient.gender}"></td>
+    <td th:text="${patient.address}"></td>
+    <td th:text="${patient.phoneNumber}"></td>
+    <td>
+      <a th:href="@{/patient/update/{id}(id=${patient.id})}">Modifier</a>
+<!--      <a th:href="@{/patients/delete/{id}(id=${patient.id})}"-->
+<!--         onclick="return confirm('Voulez-vous vraiment supprimer ce patient ?')">Supprimer</a>-->
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<!--<a href="/patients/add">Ajouter un nouveau patient</a>-->
+</body>
+</html>

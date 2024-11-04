@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Modifier un Patient</title>
+  <meta charset="UTF-8">
+<!--  <link rel="stylesheet" href="/css/style.css">-->
+</head>
+<style>
+  /* General page styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2 {
+    color: #0056b3;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+a {
+    color: #0056b3;
+    text-decoration: none;
+    font-weight: bold;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+/* Form styling */
+form {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #333;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+    border-color: #0056b3;
+    outline: none;
+}
+
+button {
+    background-color: #0056b3;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #004494;
+}
+
+/* Notes section styling */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background-color: #e9ecef;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+li span {
+    margin-bottom: 5px;
+}
+
+li span:first-child {
+    font-weight: bold;
+    color: #0056b3;
+}
+
+/* Risk level section */
+div {
+    background-color: #e9ecef;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+</style>
+<body>
+<h1>Modifier le patient</h1>
+
+<!-- Formulaire de modification du patient -->
+<form th:action="@{/patient/update/{id}(id=${patientInfo.id})}" method="post" th:object="${patientInfo}">
+  <input type="hidden" th:value="${patientInfo.id}" name="id">
+
+  <label for="firstName">Prénom :</label>
+  <input type="text" id="firstName" name="firstName" th:value="${patientInfo.firstname}" required>
+
+  <label for="lastName">Nom :</label>
+  <input type="text" id="lastName" name="lastName" th:value="${patientInfo.lastname}" required>
+
+  <label for="dateOfBirth">Date de naissance (AAAA-MM-JJ) :</label>
+  <input type="text" id="dateOfBirth" name="dateOfBirth" th:value="${patientInfo.birthdate}" required>
+
+  <label for="gender">Genre :</label>
+  <input type="text" id="gender" name="gender" th:value="${patientInfo.gender}" required>
+
+  <label for="postalAddress">Adresse postale :</label>
+  <input type="text" id="postalAddress" name="postalAddress" th:value="${patientInfo.address}">
+
+  <label for="phoneNumber">N° de portable :</label>
+  <input type="text" id="phoneNumber" name="phone" th:value="${patientInfo.phoneNumber}">
+
+  <button type="submit">Modifier</button>
+</form>
+
+<!-- Formulaire d'ajout de note -->
+<h2>Ajouter une note au patient</h2>
+<!--<form th:action="@{/patients/edit/{id}/add-note(id=${patient.id})}" method="post">-->
+<!--  <input type="hidden" th:value="${patient.id}" name="patientId">-->
+
+<!--  <label for="noteContent">Contenu de la note :</label>-->
+<!--  <textarea id="noteContent" name="noteContent" rows="4" cols="50"></textarea>-->
+
+<!--  <button type="submit">Ajouter la note</button>-->
+<!--</form>-->
+
+<!-- Liste des notes du patient -->
+<h2>Notes du patient</h2>
+<!--<ul>-->
+<!--  <li th:each="note : ${notes}">-->
+<!--    <span th:text="${note.noteDate}"></span>-->
+<!--    <span th:text="${note.noteContent}"></span>-->
+<!--  </li>-->
+<!--</ul>-->
+
+<!-- Niveau de risque du patient -->
+<h2>Niveau de risque du patient</h2>
+<!--<div>-->
+<!--  <span th:text="${riskLevel}">Niveau de risque non disponible</span>-->
+<!--</div>-->
+
+<!--<a href="/patients">Retour à la liste des patients</a>-->
+</body>
+</html>
