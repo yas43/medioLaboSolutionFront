@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+     /* General page styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2 {
+    color: #0056b3;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+a {
+    color: #0056b3;
+    text-decoration: none;
+    font-weight: bold;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+/* Form styling */
+form {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #333;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+    border-color: #0056b3;
+    outline: none;
+}
+
+button {
+    background-color: #0056b3;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #004494;
+}
+
+/* Notes section styling */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background-color: #e9ecef;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+li span {
+    margin-bottom: 5px;
+}
+
+li span:first-child {
+    font-weight: bold;
+    color: #0056b3;
+}
+
+/* Risk level section */
+div {
+    background-color: #e9ecef;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+</style>
+<body>
+<h2>Ajouter une note au patient</h2>
+<form th:action="@{/patient/addPrescription/{1}(id=${prescription.id})}" method="post" th:object="${prescription}">
+    <input type="hidden" th:value="${prescription.id}" name="id">
+
+    <label for="noteContent">Contenu de la note :</label>
+    <textarea id="noteContent" name="note" rows="4" cols="50" th:value="${prescription.note}"></textarea>
+
+<!--    <input type="hidden" th:value="${prescription.issuedDate}" name="prescription.issuedDate">-->
+
+    <button type="submit">Ajouter la note</button>
+</form>
+
+Liste des notes du patient
+<h2>Notes du patient</h2>
+<ul>
+  <li th:each="note : ${notes}">
+    <span th:text="${note.noteDate}"></span>
+    <span th:text="${note.noteContent}"></span>
+  </li>
+</ul>
+
+<!-- Niveau de risque du patient -->
+<h2>Niveau de risque du patient</h2>
+<!--<div>-->
+<!--  <span th:text="${riskLevel}">Niveau de risque non disponible</span>-->
+<!--</div>-->
+
+<!--<a href="/patients">Retour à la liste des patients</a>-->
+</body>
+</html>

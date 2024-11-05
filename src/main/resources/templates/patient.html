@@ -110,14 +110,13 @@ a[href="/patients/add"]:hover {
     <td th:text="${patient.address}"></td>
     <td th:text="${patient.phoneNumber}"></td>
     <td>
-      <a th:href="@{/patient/update/{id}(id=${patient.id})}">Modifier</a>
-<!--      <a th:href="@{/patients/delete/{id}(id=${patient.id})}"-->
-<!--         onclick="return confirm('Voulez-vous vraiment supprimer ce patient ?')">Supprimer</a>-->
+      <a th:href="@{/patient/update/{id}(id=${patient.id})}">Modifier</a>|
+      <a th:href="@{/patient/addPrescription/{1}(id=${patient.id})}">Prescription</a>
     </td>
   </tr>
   </tbody>
 </table>
 
-<!--<a href="/patients/add">Ajouter un nouveau patient</a>-->
+<a href="/patient/add">Ajouter un nouveau patient</a>
 </body>
 </html>

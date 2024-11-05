@@ -121,43 +121,43 @@ div {
 <h1>Modifier le patient</h1>
 
 <!-- Formulaire de modification du patient -->
-<form th:action="@{/patient/update/{id}(id=${patientInfo.id})}" method="post" th:object="${patientInfo}">
+<form th:action="@{/patient/update/{1}(id=${patientInfo.id})}" method="post" th:object="${patientInfo}">
   <input type="hidden" th:value="${patientInfo.id}" name="id">
 
   <label for="firstName">Prénom :</label>
-  <input type="text" id="firstName" name="firstName" th:value="${patientInfo.firstname}" required>
+  <input type="text" id="firstName" name="firstname" th:value="${patientInfo.firstname}" required>
 
   <label for="lastName">Nom :</label>
-  <input type="text" id="lastName" name="lastName" th:value="${patientInfo.lastname}" required>
+  <input type="text" id="lastName" name="lastname" th:value="${patientInfo.lastname}" required>
 
   <label for="dateOfBirth">Date de naissance (AAAA-MM-JJ) :</label>
-  <input type="text" id="dateOfBirth" name="dateOfBirth" th:value="${patientInfo.birthdate}" required>
+  <input type="text" id="dateOfBirth" name="birthdate" th:value="${patientInfo.birthdate}" required>
 
   <label for="gender">Genre :</label>
   <input type="text" id="gender" name="gender" th:value="${patientInfo.gender}" required>
 
   <label for="postalAddress">Adresse postale :</label>
-  <input type="text" id="postalAddress" name="postalAddress" th:value="${patientInfo.address}">
+  <input type="text" id="postalAddress" name="address" th:value="${patientInfo.address}">
 
   <label for="phoneNumber">N° de portable :</label>
-  <input type="text" id="phoneNumber" name="phone" th:value="${patientInfo.phoneNumber}">
+  <input type="text" id="phoneNumber" name="phoneNumber" th:value="${patientInfo.phoneNumber}">
 
   <button type="submit">Modifier</button>
 </form>
 
 <!-- Formulaire d'ajout de note -->
-<h2>Ajouter une note au patient</h2>
-<!--<form th:action="@{/patients/edit/{id}/add-note(id=${patient.id})}" method="post">-->
+<!--<h2>Ajouter une note au patient</h2>-->
+<!--<form th:action="@{/patients/edit/{id}/add-note(id=${patient.id})}" method="post" th:object="${prescription}">-->
 <!--  <input type="hidden" th:value="${patient.id}" name="patientId">-->
 
 <!--  <label for="noteContent">Contenu de la note :</label>-->
-<!--  <textarea id="noteContent" name="noteContent" rows="4" cols="50"></textarea>-->
+<!--  <textarea id="noteContent" name="note" rows="4" cols="50"></textarea>-->
 
 <!--  <button type="submit">Ajouter la note</button>-->
 <!--</form>-->
 
-<!-- Liste des notes du patient -->
-<h2>Notes du patient</h2>
+<!-- Liste des notes du patient-->
+<!--<h2>Notes du patient</h2>-->
 <!--<ul>-->
 <!--  <li th:each="note : ${notes}">-->
 <!--    <span th:text="${note.noteDate}"></span>-->
@@ -166,7 +166,7 @@ div {
 <!--</ul>-->
 
 <!-- Niveau de risque du patient -->
-<h2>Niveau de risque du patient</h2>
+<!--<h2>Niveau de risque du patient</h2>-->
 <!--<div>-->
 <!--  <span th:text="${riskLevel}">Niveau de risque non disponible</span>-->
 <!--</div>-->
