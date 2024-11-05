@@ -5,6 +5,7 @@ import com.ykestdar.mediLaboSolutionFront.DTOmodel.Prescription;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -54,5 +55,34 @@ public class PatientInfoService {
     public Prescription addPrescription() {
         Prescription prescription = new Prescription();
         return prescription;
+    }
+
+    public List<Prescription> displayAllPrescription() {
+        List<Prescription> list = new LinkedList<>();
+
+        Prescription prescription = new Prescription();
+        prescription.setId(5);
+        prescription.setNote("prescription of a patient");
+        prescription.setIssuedDate(LocalDateTime.now());
+
+        Prescription prescription1 = new Prescription();
+        prescription1.setId(5);
+        prescription1.setNote("prescription of a patient");
+        prescription1.setIssuedDate(LocalDateTime.now());
+
+        Prescription prescription2 = new Prescription();
+        prescription2.setId(5);
+        prescription2.setNote("prescription of a patient");
+        prescription2.setIssuedDate(LocalDateTime.now());
+
+
+        list.add(prescription);
+        list.add(prescription1);
+        list.add(prescription2);
+        return list;
+    }
+
+    public String riskLevelCalculator(String id) {
+        return "borderline";
     }
 }

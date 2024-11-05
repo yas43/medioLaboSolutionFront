@@ -56,8 +56,10 @@ public class PatientInfoController {
 
 
     @GetMapping("/addPrescription/{id}")
-    public String addPrescription(Model model){
+    public String addPrescription(@PathVariable("id")String id,Model model){
         model.addAttribute(new Prescription());
+        model.addAttribute("prescriptions",patientInfoService.displayAllPrescription());
+        model.addAttribute("riskLevel",patientInfoService.riskLevelCalculator(id));
         return "prescription";
     }
 

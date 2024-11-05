@@ -132,18 +132,18 @@ div {
 Liste des notes du patient
 <h2>Notes du patient</h2>
 <ul>
-  <li th:each="note : ${notes}">
-    <span th:text="${note.noteDate}"></span>
-    <span th:text="${note.noteContent}"></span>
+  <li th:each="prescription : ${prescriptions}">
+    <span th:text="${prescription.issuedDate}"></span>
+    <span th:text="${prescription.note}"></span>
   </li>
 </ul>
 
 <!-- Niveau de risque du patient -->
 <h2>Niveau de risque du patient</h2>
-<!--<div>-->
-<!--  <span th:text="${riskLevel}">Niveau de risque non disponible</span>-->
-<!--</div>-->
+<div>
+  <span th:text="${riskLevel}">Niveau de risque non disponible</span>
+</div>
 
-<!--<a href="/patients">Retour à la liste des patients</a>-->
+<a href="/patient/display">Retour à la liste des patients</a>
 </body>
 </html>
