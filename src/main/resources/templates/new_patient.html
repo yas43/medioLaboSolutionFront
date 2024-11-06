@@ -3,7 +3,7 @@
 <head>
     <title>Ajouter un Patient</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/css/style.css">
+<!--    <link rel="stylesheet" href="/css/style.css">-->
 </head>
 <style>
     /* General page styling */
@@ -102,27 +102,27 @@ a:hover {
 <body>
 <h1>Ajouter un nouveau patient</h1>
 
-<form th:action="@{/patient/add}" method="post">
+<form th:action="@{/patient/add}" method="post" th:object="${patientInfo}">
     <label for="firstName">Prénom :</label>
-    <input type="text" id="firstName" name="firstname" required>
+    <input type="text" id="firstName" name="firstname"  th:value="${patientInfo.firstname}" required>
 
     <label for="lastName">Nom :</label>
-    <input type="text" id="lastName" name="lastname" required>
+    <input type="text" id="lastName" name="lastname"  th:value="${patientInfo.lastname}" required>
 
     <label for="dateOfBirth">Date de naissance (AAAA-MM-JJ) :</label>
-    <input type="text" id="dateOfBirth" name="birthdate" required>
+    <input type="text" id="dateOfBirth" name="birthdate"  th:value="${patientInfo.birthdate}" required>
 
     <label for="gender">Genre :</label>
-    <input type="text" id="gender" name="gender" required>
+    <input type="text" id="gender" name="gender"  th:value="${patientInfo.gender}" required>
 
     <label for="address">Adresse :</label>
-    <input type="text" id="address" name="address">
+    <input type="text" id="address" name="address" th:value="${patientInfo.address}">
 
     <label for="phone">Telephone :</label>
-    <input type="text" id="phone" name="phoneNumber">
+    <input type="text" id="phone" name="phoneNumber" th:value="${patientInfo.phoneNumber}">
 
-    <label for="noteContent">Notes :</label>
-    <textarea id="noteContent" name="noteContent" rows="5" placeholder="Ajouter des notes pour ce patient"></textarea>
+<!--    <label for="noteContent">Notes :</label>-->
+<!--    <textarea id="noteContent" name="noteContent" rows="5" placeholder="Ajouter des notes pour ce patient"></textarea>-->
 
     <button type="submit">Ajouter</button>
 </form>

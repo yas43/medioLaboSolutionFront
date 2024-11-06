@@ -57,14 +57,28 @@ public class PatientInfoService {
 
     public PatientInfo addPatient(PatientInfo patientInfo) {
         PatientInfo patientInfo1 = new PatientInfo();
-        patientInfo1.setId(1);
-        patientInfo1.setFirstname("testfirstname");
-        patientInfo1.setLastname("testlastname");
-        patientInfo1.setBirthdate(LocalDate.of(1980 ,12, 20));
-        patientInfo1.setAddress("test address");
-        patientInfo1.setPhoneNumber("testphone77777");
-        patientInfo1.setGender("male");
-        return patientInfo1;
+        patientInfo1.setId(10);
+        patientInfo1.setBirthdate(patientInfo.getBirthdate());
+        patientInfo1.setGender(patientInfo.getGender());
+        patientInfo1.setLastname(patientInfo.getLastname());
+        patientInfo1.setFirstname(patientInfo.getFirstname());
+        patientInfo1.setAddress(patientInfo.getAddress());
+        patientInfo1.setPhoneNumber(patientInfo.getPhoneNumber());
+
+        restTemplate.postForObject("http://localhost:8085/patient_info/add",patientInfo1,PatientInfo.class);
+        PatientInfo patientInfo2 = restTemplate.getForObject("http://localhost:8085/patient_info/add",PatientInfo.class);
+
+        return patientInfo2;
+
+//        PatientInfo patientInfo1 = new PatientInfo();
+//        patientInfo1.setId(1);
+//        patientInfo1.setFirstname("testfirstname");
+//        patientInfo1.setLastname("testlastname");
+//        patientInfo1.setBirthdate(LocalDate.of(1980 ,12, 20));
+//        patientInfo1.setAddress("test address");
+//        patientInfo1.setPhoneNumber("testphone77777");
+//        patientInfo1.setGender("male");
+//        return patientInfo1;
     }
 
     public Prescription addPrescription() {
