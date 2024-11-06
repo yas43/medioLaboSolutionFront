@@ -3,6 +3,7 @@ package com.ykestdar.mediLaboSolutionFront.service;
 import com.ykestdar.mediLaboSolutionFront.DTOmodel.PatientInfo;
 import com.ykestdar.mediLaboSolutionFront.DTOmodel.Prescription;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,18 +12,32 @@ import java.util.List;
 
 @Service
 public class PatientInfoService {
+
+    private final RestTemplate restTemplate;
+
+    public PatientInfoService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
     public List<PatientInfo> displayAllPatientInformation() {
-        List<PatientInfo> list = new LinkedList<>();
-        PatientInfo patientInfo = new PatientInfo();
-        patientInfo.setId(1);
-        patientInfo.setFirstname("nameTest");
-        patientInfo.setLastname("lastnameTest");
-        patientInfo.setAddress("addressTest");
-        patientInfo.setBirthdate(LocalDate.now());
-        patientInfo.setGender("male");
-        patientInfo.setPhoneNumber("888888888");
-        list.add(patientInfo);
-        return list;
+
+
+         List<PatientInfo> list = restTemplate.getForObject("http://localhost:8085/patient_info/all",List.class);
+
+         return list;
+
+
+//        List<PatientInfo> list = new LinkedList<>();
+//        PatientInfo patientInfo = new PatientInfo();
+//        patientInfo.setId(1);
+//        patientInfo.setFirstname("nameTest");
+//        patientInfo.setLastname("lastnameTest");
+//        patientInfo.setAddress("addressTest");
+//        patientInfo.setBirthdate(LocalDate.now());
+//        patientInfo.setGender("male");
+//        patientInfo.setPhoneNumber("888888888");
+//        list.add(patientInfo);
+//        return list;
     }
 
     //id data type need to convert to Integer for test purpose it consider String
