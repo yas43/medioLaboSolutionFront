@@ -4,11 +4,11 @@ import com.ykestdar.mediLaboSolutionFront.DTOmodel.PatientInfo;
 import com.ykestdar.mediLaboSolutionFront.DTOmodel.Prescription;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.*;
+import org.springframework.web.util.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class PatientInfoService {
@@ -41,18 +41,54 @@ public class PatientInfoService {
     }
 
     //id data type need to convert to Integer for test purpose it consider String
-    public PatientInfo updatePatient(String id) {
-        PatientInfo patientInfo = new PatientInfo();
-        patientInfo.setId(1);
-        patientInfo.setFirstname("testfirstname");
-        patientInfo.setLastname("testlastname");
-        patientInfo.setGender("female");
-        patientInfo.setPhoneNumber("77777777");
-        patientInfo.setBirthdate(LocalDate.now());
-        patientInfo.setAddress("address test");
-        patientInfo.setPhoneNumber("333333333");
+    public PatientInfo updatePatient(Integer id,String firstname,String lastname,String gender,
+                                     LocalDate birthdate,String address,String phoneNumber) {
 
-        return patientInfo;
+        PatientInfo patientInfo = new PatientInfo();
+
+        int idNumber = id;
+        String firstName = firstname;
+        String lastName = lastname;
+        String Gender = gender;
+        LocalDate BirthDate = birthdate;
+        String Address = address;
+        String phone = phoneNumber;
+
+
+        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8085/patient_info/update")
+                .queryParam("id",idNumber)
+                .queryParam("firstname",firstName)
+                .queryParam("lastname",lastName)
+                .queryParam("gender",Gender)
+                .queryParam("birthdate",BirthDate)
+                .queryParam("address",Address)
+                .queryParam("phoneNumber",phone)
+                .toUriString();
+
+        patientInfo.setId(id);
+        patientInfo.setFirstname(firstname);
+        patientInfo.setLastname(lastname);
+        patientInfo.setGender(gender);
+        patientInfo.setAddress(address);
+        patientInfo.setBirthdate(birthdate);
+        patientInfo.setPhoneNumber(phoneNumber);
+
+         PatientInfo patientInfo1 = restTemplate.postForObject(url,patientInfo,PatientInfo.class);
+
+         return patientInfo1;
+
+
+//        PatientInfo patientInfo = new PatientInfo();
+//        patientInfo.setId(1);
+//        patientInfo.setFirstname("testfirstname");
+//        patientInfo.setLastname("testlastname");
+//        patientInfo.setGender("female");
+//        patientInfo.setPhoneNumber("77777777");
+//        patientInfo.setBirthdate(LocalDate.now());
+//        patientInfo.setAddress("address test");
+//        patientInfo.setPhoneNumber("333333333");
+//
+//        return patientInfo;
     }
 
     public PatientInfo addPatient(PatientInfo patientInfo) {
@@ -113,5 +149,20 @@ public class PatientInfoService {
 
     public String riskLevelCalculator(String id) {
         return "borderline";
+    }
+
+    public PatientInfo getPatientById(Integer id) {
+
+        String url = "http://localhost:8085/patient_info/findById/{id}";
+
+        Map<String,Object> uriVariable = new HashMap<>();
+        uriVariable.put("id",id);
+
+        PatientInfo patientInfo = restTemplate.getForObject(url,PatientInfo.class,uriVariable);
+
+        return patientInfo;
+
+//       PatientInfo patientInfo = restTemplate.getForObject("http://localhost:8085/patient_info/findById",PatientInfo.class);
+//       return patientInfo;
     }
 }

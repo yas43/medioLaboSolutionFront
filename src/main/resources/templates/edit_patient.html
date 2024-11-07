@@ -119,9 +119,9 @@ div {
 </style>
 <body>
 <h1>Modifier le patient</h1>
-
+<!--/{id}(id=${patientInfo.id})-->
 <!-- Formulaire de modification du patient -->
-<form th:action="@{/patient/update/{1}(id=${patientInfo.id})}" method="post" th:object="${patientInfo}">
+<form th:action="@{/patient/update}" method="post" th:object="${patientInfo}">
   <input type="hidden" th:value="${patientInfo.id}" name="id">
 
   <label for="firstName">Prénom :</label>

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.time.*;
 
 @Controller
 @RequestMapping("patient")
@@ -40,18 +40,46 @@ public class PatientInfoController {
         return "patient";
     }
 
+//    @GetMapping("/update/{id}")
+//    public String updatePatient(Model model){
+//        model.addAttribute(new PatientInfo());
+//        return "edit_patient";
+//    }
+
+
+
     @GetMapping("/update/{id}")
-    public String updatePatient(Model model){
-        model.addAttribute(new PatientInfo());
+    public String updatePatient(@PathVariable int id, Model model){
+        model.addAttribute("patientInfo",patientInfoService.getPatientById(id));
         return "edit_patient";
     }
 
-    @PostMapping("/update/{id}")
-    public PatientInfo updatePatient(@PathVariable("id")String id,Model model){
-        System.out.println();
-        System.out.println("return patient is :" + patientInfoService.updatePatient(id)); //id data type need to convert to Integer for test purpose it consider String
-        return patientInfoService.updatePatient(id);
+
+
+
+//    @PostMapping("/update/{id}")
+//    public PatientInfo updatePatient(@PathVariable("id")String id,Model model){
+//        System.out.println();
+//        System.out.println("return patient is :" + patientInfoService.updatePatient(id)); //id data type need to convert to Integer for test purpose it consider String
+//        return patientInfoService.updatePatient(id);
+//    }
+
+    @PostMapping("/update")
+    public PatientInfo updatePatient(@RequestParam("id")Integer id,
+                                     @RequestParam("firstname")String firstname,
+                                     @RequestParam("lastname")String lastname,
+                                     @RequestParam("gender")String gender,
+                                     @RequestParam("birthdate") LocalDate birthdate,
+                                     @RequestParam("address")String address,
+                                     @RequestParam("phoneNumber")String phoneNumber,Model model){
+        System.out.println("come from page to ui controller for post patient/update is "+"id "+id+
+        "firstname "+firstname+"lastname "+lastname+"gender "+gender+"birthdate "+birthdate+
+        "address "+address+"phoneNumber "+phoneNumber);
+//        System.out.println();
+//        System.out.println("return patient is :" + patientInfoService.updatePatient(id)); //id data type need to convert to Integer for test purpose it consider String
+        return patientInfoService.updatePatient(id,firstname,lastname,gender,birthdate,address,phoneNumber);
     }
+
 
 
 
