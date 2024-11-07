@@ -22,7 +22,7 @@ public class PatientInfoService {
     public List<PatientInfo> displayAllPatientInformation() {
 
 
-         List<PatientInfo> list = restTemplate.getForObject("http://localhost:8085/patient_info/all",List.class);
+         List<PatientInfo> list = restTemplate.getForObject("http://localhost:8080/patient_info/all",List.class);
 
          return list;
 
@@ -55,7 +55,7 @@ public class PatientInfoService {
         String phone = phoneNumber;
 
 
-        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8085/patient_info/update")
+        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/patient_info/update")
                 .queryParam("id",idNumber)
                 .queryParam("firstname",firstName)
                 .queryParam("lastname",lastName)
@@ -101,8 +101,8 @@ public class PatientInfoService {
         patientInfo1.setAddress(patientInfo.getAddress());
         patientInfo1.setPhoneNumber(patientInfo.getPhoneNumber());
 
-        restTemplate.postForObject("http://localhost:8085/patient_info/add",patientInfo1,PatientInfo.class);
-        PatientInfo patientInfo2 = restTemplate.getForObject("http://localhost:8085/patient_info/add",PatientInfo.class);
+        restTemplate.postForObject("http://localhost:8080/patient_info/add",patientInfo1,PatientInfo.class);
+        PatientInfo patientInfo2 = restTemplate.getForObject("http://localhost:8080/patient_info/add",PatientInfo.class);
 
         return patientInfo2;
 
@@ -153,7 +153,7 @@ public class PatientInfoService {
 
     public PatientInfo getPatientById(Integer id) {
 
-        String url = "http://localhost:8085/patient_info/findById/{id}";
+        String url = "http://localhost:8080/patient_info/findById/{id}";
 
         Map<String,Object> uriVariable = new HashMap<>();
         uriVariable.put("id",id);
