@@ -118,7 +118,7 @@ div {
 </style>
 <body>
 <h2>Ajouter une note au patient</h2>
-<form th:action="@{/patient/addPrescription/{1}(id=${prescription.id})}" method="post" th:object="${prescription}">
+<form th:action="@{/patient/addPrescription/{id}(id=${prescription.id})}" method="post" th:object="${prescription}">
     <input type="hidden" th:value="${prescription.id}" name="id">
 
     <label for="noteContent">Contenu de la note :</label>
@@ -132,9 +132,9 @@ div {
 Liste des notes du patient
 <h2>Notes du patient</h2>
 <ul>
-  <li th:each="prescription : ${prescriptions}">
-    <span th:text="${prescription.issuedDate}"></span>
-    <span th:text="${prescription.note}"></span>
+  <li th:each="note:${notes}">
+<!--    <span th:text="${prescription.issuedDate}"></span>-->
+    <span th:text="${note}"></span>
   </li>
 </ul>
 

@@ -111,7 +111,7 @@ a[href="/patients/add"]:hover {
     <td th:text="${patient.phoneNumber}"></td>
     <td>
       <a th:href="@{/patient/update/{id}(id=${patient.id})}">Modifier</a>|
-      <a th:href="@{/patient/addPrescription/{1}(id=${patient.id})}">Prescription</a>
+      <a th:href="@{/patient/addPrescription/{id}(id=${patient.id})}">Prescription</a>
     </td>
   </tr>
   </tbody>

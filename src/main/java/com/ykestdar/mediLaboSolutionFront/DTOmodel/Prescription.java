@@ -15,5 +15,5 @@ import java.time.LocalDateTime;
 public class Prescription {
     Integer id;
     String note;
-    LocalDateTime issuedDate;
+//    LocalDateTime issuedDate;
 }

@@ -117,37 +117,55 @@ public class PatientInfoService {
 //        return patientInfo1;
     }
 
-    public Prescription addPrescription() {
-        Prescription prescription = new Prescription();
-        return prescription;
+    public void addPrescription(Integer id,Prescription prescription) {
+
+        System.out.println("prescription id is "+prescription.getId());
+        String url = "http://localhost:8086/prescription/addPrescription";
+        restTemplate.getForObject(url,void.class);
+//        Prescription prescription1 = new Prescription();
+//        return prescription1;
     }
 
-    public List<Prescription> displayAllPrescription() {
-        List<Prescription> list = new LinkedList<>();
+    public List<String> displayAllPrescription(Integer id) {
 
-        Prescription prescription = new Prescription();
-        prescription.setId(5);
-        prescription.setNote("prescription of a patient");
-        prescription.setIssuedDate(LocalDateTime.now());
+        String url = "http://localhost:8086/prescription/prescriptions/{id}";
 
-        Prescription prescription1 = new Prescription();
-        prescription1.setId(5);
-        prescription1.setNote("prescription of a patient");
-        prescription1.setIssuedDate(LocalDateTime.now());
+        Map<String,Object> uriVariable = new HashMap<>();
+        uriVariable.put("id",id);
 
-        Prescription prescription2 = new Prescription();
-        prescription2.setId(5);
-        prescription2.setNote("prescription of a patient");
-        prescription2.setIssuedDate(LocalDateTime.now());
+         List<String> allTheNotes =  restTemplate.getForObject(url,List.class,uriVariable);
+
+         return allTheNotes;
+
+//       List<Prescription> list = restTemplate.postForObject("http://localhost:8086/prescription/prescriptions",id,List.class);
+//       return list;
 
 
-        list.add(prescription);
-        list.add(prescription1);
-        list.add(prescription2);
-        return list;
+//        List<Prescription> list = new LinkedList<>();
+//
+//        Prescription prescription = new Prescription();
+//        prescription.setId(5);
+//        prescription.setNote("prescription of a patient");
+//        prescription.setIssuedDate(LocalDateTime.now());
+//
+//        Prescription prescription1 = new Prescription();
+//        prescription1.setId(5);
+//        prescription1.setNote("prescription of a patient");
+//        prescription1.setIssuedDate(LocalDateTime.now());
+//
+//        Prescription prescription2 = new Prescription();
+//        prescription2.setId(5);
+//        prescription2.setNote("prescription of a patient");
+//        prescription2.setIssuedDate(LocalDateTime.now());
+//
+//
+//        list.add(prescription);
+//        list.add(prescription1);
+//        list.add(prescription2);
+//        return list;
     }
 
-    public String riskLevelCalculator(String id) {
+    public String riskLevelCalculator(Integer id) {
         return "borderline";
     }
 

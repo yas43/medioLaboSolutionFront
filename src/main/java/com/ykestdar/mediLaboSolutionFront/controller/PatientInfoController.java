@@ -84,9 +84,9 @@ public class PatientInfoController {
 
 
     @GetMapping("/addPrescription/{id}")
-    public String addPrescription(@PathVariable("id")String id,Model model){
+    public String addPrescription(@PathVariable("id")Integer id,Model model){
         model.addAttribute(new Prescription());
-        model.addAttribute("prescriptions",patientInfoService.displayAllPrescription());
+        model.addAttribute("notes",patientInfoService.displayAllPrescription(id));
         model.addAttribute("riskLevel",patientInfoService.riskLevelCalculator(id));
         return "prescription";
     }
@@ -94,10 +94,11 @@ public class PatientInfoController {
 
 
     @PostMapping("/addPrescription/{id}")
-    public Prescription addPrescription(@ModelAttribute("prescription")Prescription prescription){
-        prescription.setIssuedDate(LocalDateTime.now());
-        System.out.println("prescripion is " + prescription);
-       return patientInfoService.addPrescription();
+    public void addPrescription(@PathVariable("id")Integer id,
+                                        @ModelAttribute("prescription")Prescription prescription){
+//        prescription.setIssuedDate(LocalDateTime.now());
+//        System.out.println("prescripion is " + prescription);
+        patientInfoService.addPrescription(id,prescription);
     }
 
   }
