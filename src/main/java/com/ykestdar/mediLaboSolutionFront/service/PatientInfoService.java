@@ -117,13 +117,13 @@ public class PatientInfoService {
 //        return patientInfo1;
     }
 
-    public void addPrescription(Integer id,Prescription prescription) {
+    public Prescription addPrescription(Integer id,Prescription prescription) {
 
         System.out.println("prescription id is "+prescription.getId());
         String url = "http://localhost:8086/prescription/addPrescription";
-        restTemplate.getForObject(url,void.class);
+       Prescription prescription1 =  restTemplate.getForObject(url,Prescription.class);
 //        Prescription prescription1 = new Prescription();
-//        return prescription1;
+        return prescription1;
     }
 
     public List<String> displayAllPrescription(Integer id) {
@@ -182,5 +182,14 @@ public class PatientInfoService {
 
 //       PatientInfo patientInfo = restTemplate.getForObject("http://localhost:8085/patient_info/findById",PatientInfo.class);
 //       return patientInfo;
+    }
+
+    public Prescription findPrescriptionById(Integer id) {
+        String url = "http://localhost:8086/prescription/prescription/{id}";
+        Map<String,Object> uriVariable = new HashMap<>();
+        uriVariable.put("id",id);
+        Prescription prescription = restTemplate.getForObject(url,Prescription.class,uriVariable);
+        return prescription;
+
     }
 }
