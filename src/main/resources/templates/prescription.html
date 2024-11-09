@@ -118,11 +118,12 @@ div {
 </style>
 <body>
 <h2>Ajouter une note au patient</h2>
-<form th:action="@{/patient/addPrescription/{id}(id=${currentPatientId})}" method="post" th:object="${prescription}">
+<!--th:object="${prescription}"-->
+<form th:action="@{/patient/addPrescription/{id}(id=${currentPatientId})}" method="post" >
     <input type="hidden" th:value="${currentPatientId}" name="id">
 
     <label for="noteContent">Contenu de la note :</label>
-    <textarea id="noteContent" name="note" rows="4" cols="50" th:value="${prescription.note}"></textarea>
+    <textarea id="noteContent" name="note" rows="4" cols="50" th:value="${note}"></textarea>
 
 <!--    <input type="hidden" th:value="${prescription.issuedDate}" name="prescription.issuedDate">-->
 

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.*;
 
 @Component
 @Data
@@ -14,6 +15,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Prescription {
     Integer id;
-    String note;
+   List<String> note;
 //    LocalDateTime issuedDate;
 }

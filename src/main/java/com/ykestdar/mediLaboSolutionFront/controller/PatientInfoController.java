@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.*;
+import java.util.*;
 
 @Controller
 @RequestMapping("patient")
@@ -96,12 +97,12 @@ public class PatientInfoController {
 
 
     @PostMapping("/addPrescription/{id}")
-    public Prescription addPrescription(@PathVariable("id")Integer id,
-                                        @ModelAttribute("prescription")Prescription prescription){
+    public void addPrescription(@PathVariable("id")Integer id,
+                                @ModelAttribute("note")String note){
 //        prescription.setIssuedDate(LocalDateTime.now());
 //        System.out.println("prescripion is " + prescription);
 //        model.addAttribute("prescription",patientInfoService.findPrescriptionById(id));
-       return patientInfoService.addPrescription(id,prescription);
+        patientInfoService.addPrescription(id,note);
     }
 
   }
