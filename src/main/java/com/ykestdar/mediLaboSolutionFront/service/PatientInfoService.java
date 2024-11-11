@@ -180,7 +180,15 @@ public class PatientInfoService {
     }
 
     public String riskLevelCalculator(Integer id) {
-        return "borderline";
+        String url = "http://localhost:8091/analyse/score/{id}";
+        Map<String,Object>uriVariable = new HashMap<>();
+        uriVariable.put("id",id);
+
+        Integer score = restTemplate.getForObject(url,Integer.class,uriVariable);
+
+        return String.valueOf(score);
+
+//        return "borderline";
     }
 
     public PatientInfo getPatientById(Integer id) {
