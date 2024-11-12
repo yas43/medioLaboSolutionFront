@@ -101,8 +101,14 @@ a:hover {
 </style>
 <body>
 <h1>Ajouter un nouveau patient</h1>
+<div th:if="${success}">
+    <span th:text="${success}"></span>
+</div>
+<div th:if="${error}">
+    <span th:text="${error}"></span>
+</div>
 
-<form th:action="@{/patient/add}" method="post" th:object="${patientInfo}">
+<form th:action="@{/patient/add}" th:method="post" th:object="${patientInfo}">
     <label for="firstName">Prénom :</label>
     <input type="text" id="firstName" name="firstname"  th:value="${patientInfo.firstname}" required>
 

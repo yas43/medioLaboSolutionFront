@@ -118,8 +118,14 @@ div {
 </style>
 <body>
 <h2>Ajouter une note au patient</h2>
+<div th:if="${success}">
+    <span th:text="${success}"></span>
+</div>
+<div th:if="${error}">
+    <span th:text="${error}"></span>
+</div>
 <!--th:object="${prescription}"-->
-<form th:action="@{/patient/addPrescription/{id}(id=${currentPatientId})}" method="post" >
+<form th:action="@{/patient/addPrescription/{id}(id=${currentPatientId})}" th:method="post" >
     <input type="hidden" th:value="${currentPatientId}" name="id">
 
     <label for="noteContent">Contenu de la note :</label>

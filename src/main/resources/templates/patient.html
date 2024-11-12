@@ -87,6 +87,12 @@ a[href="/patients/add"]:hover {
 
 </style>
 <body>
+<div th:if="${success}">
+  <span th:text="${success}"></span>
+</div>
+<div th:if="${error}">
+  <span th:text="${error}"></span>
+</div>
 <h1>Liste des Patients</h1>
 
 <table>

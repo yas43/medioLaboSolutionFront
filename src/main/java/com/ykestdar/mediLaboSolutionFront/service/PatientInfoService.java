@@ -93,7 +93,7 @@ public class PatientInfoService {
 
     public PatientInfo addPatient(PatientInfo patientInfo) {
         PatientInfo patientInfo1 = new PatientInfo();
-        patientInfo1.setId(10);
+//        patientInfo1.setId(patientInfo.getId());
         patientInfo1.setBirthdate(patientInfo.getBirthdate());
         patientInfo1.setGender(patientInfo.getGender());
         patientInfo1.setLastname(patientInfo.getLastname());
@@ -101,10 +101,10 @@ public class PatientInfoService {
         patientInfo1.setAddress(patientInfo.getAddress());
         patientInfo1.setPhoneNumber(patientInfo.getPhoneNumber());
 
-        restTemplate.postForObject("http://localhost:8080/patient_info/add",patientInfo1,PatientInfo.class);
-        PatientInfo patientInfo2 = restTemplate.getForObject("http://localhost:8080/patient_info/add",PatientInfo.class);
+      return   restTemplate.postForObject("http://localhost:8080/patient_info/add",patientInfo,PatientInfo.class);
+//        PatientInfo patientInfo2 = restTemplate.getForObject("http://localhost:8080/patient_info/add",PatientInfo.class);
 
-        return patientInfo2;
+//        return patientInfo2;
 
 //        PatientInfo patientInfo1 = new PatientInfo();
 //        patientInfo1.setId(1);
@@ -120,7 +120,7 @@ public class PatientInfoService {
     public void addPrescription(Integer id,String note) {
 
 //        System.out.println("prescription id is "+prescription.getId());
-        String url = "http://localhost:8086/prescription/addPrescription/{id}";
+        String url = "http://localhost:8080/prescription/addPrescription/{id}";
 
         Map<String,Object> uriVariable = new HashMap<>();
         uriVariable.put("id",id);
@@ -142,7 +142,7 @@ public class PatientInfoService {
 
     public List<String> displayAllPrescription(Integer id) {
 
-        String url = "http://localhost:8086/prescription/prescriptions/{id}";
+        String url = "http://localhost:8080/prescription/prescriptions/{id}";
 
         Map<String,Object> uriVariable = new HashMap<>();
         uriVariable.put("id",id);
@@ -180,7 +180,7 @@ public class PatientInfoService {
     }
 
     public String riskLevelCalculator(Integer id) {
-        String url = "http://localhost:8091/analyse/score/{id}";
+        String url = "http://localhost:8080/analyse/score/{id}";
         Map<String,Object>uriVariable = new HashMap<>();
         uriVariable.put("id",id);
 
@@ -207,7 +207,7 @@ public class PatientInfoService {
     }
 
     public Prescription findPrescriptionById(Integer id) {
-        String url = "http://localhost:8086/prescription/prescription/{id}";
+        String url = "http://localhost:8080/prescription/prescription/{id}";
         Map<String,Object> uriVariable = new HashMap<>();
         uriVariable.put("id",id);
         Prescription prescription = restTemplate.getForObject(url,Prescription.class,uriVariable);
