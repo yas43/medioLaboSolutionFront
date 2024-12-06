@@ -2,6 +2,7 @@ package com.ykestdar.mediLaboSolutionFront.service;
 
 import com.ykestdar.mediLaboSolutionFront.DTOmodel.PatientInfo;
 import com.ykestdar.mediLaboSolutionFront.DTOmodel.Prescription;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.*;
 import org.springframework.web.util.*;
@@ -12,6 +13,12 @@ import java.util.*;
 
 @Service
 public class PatientInfoService {
+    @Value("${service.url.patientInfoBase}")
+    private String patientInfoUrlBase;
+    @Value("${service.url.patientAnalyseBase}")
+    private String patientAnalyseUrlBase;
+    @Value("${service.url.patientPrescriptionBase}")
+    private String patientPrescriptionUrlBase;
 
     private final RestTemplate restTemplate;
 
@@ -21,8 +28,8 @@ public class PatientInfoService {
 
     public List<PatientInfo> displayAllPatientInformation() {
 
-
-         List<PatientInfo> list = restTemplate.getForObject("http://localhost:8080/patient_info/all",List.class);
+        String url = String.format("%s/all",patientInfoUrlBase);
+         List<PatientInfo> list = restTemplate.getForObject(url,List.class);
 
          return list;
 
@@ -54,8 +61,8 @@ public class PatientInfoService {
         String Address = address;
         String phone = phoneNumber;
 
-
-        String url = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/patient_info/update")
+        String updateUrl = String.format("%s/update",patientInfoUrlBase);
+        String url = UriComponentsBuilder.fromHttpUrl(updateUrl)
                 .queryParam("id",idNumber)
                 .queryParam("firstname",firstName)
                 .queryParam("lastname",lastName)
@@ -92,6 +99,7 @@ public class PatientInfoService {
     }
 
     public PatientInfo addPatient(PatientInfo patientInfo) {
+        String addUrl = String.format("%s/add",patientInfoUrlBase);
         PatientInfo patientInfo1 = new PatientInfo();
 //        patientInfo1.setId(patientInfo.getId());
         patientInfo1.setBirthdate(patientInfo.getBirthdate());
@@ -101,7 +109,7 @@ public class PatientInfoService {
         patientInfo1.setAddress(patientInfo.getAddress());
         patientInfo1.setPhoneNumber(patientInfo.getPhoneNumber());
 
-      return   restTemplate.postForObject("http://localhost:8080/patient_info/add",patientInfo,PatientInfo.class);
+      return   restTemplate.postForObject(addUrl,patientInfo,PatientInfo.class);
 //        PatientInfo patientInfo2 = restTemplate.getForObject("http://localhost:8080/patient_info/add",PatientInfo.class);
 
 //        return patientInfo2;
@@ -118,9 +126,10 @@ public class PatientInfoService {
     }
 
     public void addPrescription(Integer id,String note) {
+        String addPrescriptionUrl = String.format("%s/addPrescription/%d",patientPrescriptionUrlBase,id);
 
 //        System.out.println("prescription id is "+prescription.getId());
-        String url = "http://localhost:8080/prescription/addPrescription/{id}";
+        String url = addPrescriptionUrl;
 
         Map<String,Object> uriVariable = new HashMap<>();
         uriVariable.put("id",id);
@@ -141,13 +150,16 @@ public class PatientInfoService {
     }
 
     public List<String> displayAllPrescription(Integer id) {
+        System.out.println("before creating url");
+        String displayUrl = String.format("%s/prescriptions/%d",patientPrescriptionUrlBase,id);
+        System.out.println("display url is "+displayUrl);
 
         String url = "http://localhost:8080/prescription/prescriptions/{id}";
 
         Map<String,Object> uriVariable = new HashMap<>();
         uriVariable.put("id",id);
 
-         List<String> allTheNotes =  restTemplate.getForObject(url,List.class,uriVariable);
+         List<String> allTheNotes =  restTemplate.getForObject(displayUrl,List.class,uriVariable);
 
          return allTheNotes;
 
@@ -180,11 +192,14 @@ public class PatientInfoService {
     }
 
     public String riskLevelCalculator(Integer id) {
+
+        String riskLevelUrl = String.format("%s/score/%d",patientAnalyseUrlBase,id);
+        System.out.println("link for prescription is "+riskLevelUrl);
         String url = "http://localhost:8080/analyse/score/{id}";
         Map<String,Object>uriVariable = new HashMap<>();
         uriVariable.put("id",id);
 
-        Integer score = restTemplate.getForObject(url,Integer.class,uriVariable);
+        Integer score = restTemplate.getForObject(riskLevelUrl,Integer.class,uriVariable);
 
         return String.valueOf(score);
 
@@ -193,7 +208,9 @@ public class PatientInfoService {
 
     public PatientInfo getPatientById(Integer id) {
 
-        String url = "http://localhost:8080/patient_info/findById/{id}";
+        String findPatientUrl = String.format("%s/findById/%d",patientInfoUrlBase,id);
+
+        String url = findPatientUrl;
 
         Map<String,Object> uriVariable = new HashMap<>();
         uriVariable.put("id",id);
@@ -207,7 +224,9 @@ public class PatientInfoService {
     }
 
     public Prescription findPrescriptionById(Integer id) {
-        String url = "http://localhost:8080/prescription/prescription/{id}";
+
+        String findPrescriptionUrl = String.format("%s/prescription/%d",patientPrescriptionUrlBase,id);
+        String url = findPrescriptionUrl;
         Map<String,Object> uriVariable = new HashMap<>();
         uriVariable.put("id",id);
         Prescription prescription = restTemplate.getForObject(url,Prescription.class,uriVariable);
