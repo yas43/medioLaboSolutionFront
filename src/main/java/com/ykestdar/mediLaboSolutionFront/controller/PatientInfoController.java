@@ -1,13 +1,17 @@
 package com.ykestdar.mediLaboSolutionFront.controller;
 
-import com.ykestdar.mediLaboSolutionFront.DTOmodel.PatientInfo;
-import com.ykestdar.mediLaboSolutionFront.DTOmodel.Prescription;
+import com.ykestdar.mediLaboSolutionFront.DTOmodel.*;
 import com.ykestdar.mediLaboSolutionFront.service.PatientInfoService;
+import com.ykestdar.mediLaboSolutionFront.session.*;
+import jakarta.servlet.http.*;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.*;
 import org.springframework.web.servlet.mvc.support.*;
 
+import java.io.*;
 import java.time.*;
 import java.util.*;
 
@@ -15,10 +19,76 @@ import java.util.*;
 @RequestMapping("patient")
 public class PatientInfoController {
     private final PatientInfoService patientInfoService;
+    private final RestTemplate restTemplate;
+    private final JwtSessionStore jwtSessionStore;
 
-    public PatientInfoController(PatientInfoService patientInfoService) {
+    public PatientInfoController(PatientInfoService patientInfoService, RestTemplate restTemplate, JwtSessionStore jwtSessionStore) {
         this.patientInfoService = patientInfoService;
+        this.restTemplate = restTemplate;
+        this.jwtSessionStore = jwtSessionStore;
     }
+
+
+    @GetMapping("/signUp")
+    public String displayLogin(Model model){
+
+        return "login";
+    }
+
+
+
+
+
+    @PostMapping("login")
+    public String login(@ModelAttribute LoginForm loginForm, HttpServletResponse response) throws IOException {
+
+
+        System.out.println("we are in massages/login");
+
+        try {
+            String url = "http://localhost:8082/login/authenticate";
+
+            LoginForm loginForm1 = new LoginForm();
+            loginForm1.setUsername(loginForm.getUsername());
+            loginForm1.setPassword(loginForm.getPassword());
+
+
+
+            ResponseEntity<String> responseToken = restTemplate.postForEntity(url, loginForm1, String.class);
+            String token = responseToken.getBody();
+            System.out.println("received token in frontend is "+token);
+//    System.out.println("user name when token generated is " + jwtService.getUsername(token));
+
+            //generate a session ID
+            String sessionId = UUID.randomUUID().toString();
+            System.out.println("sessionid is "+sessionId);
+
+            // Store the session ID and JWT in the session store
+            jwtSessionStore.storeToken(sessionId, token);
+
+
+            // Send the session ID as a cookie to the client
+            response.setHeader("Set-Cookie", "SESSIONID=" + sessionId + "; HttpOnly; Secure; Path=/");
+
+            System.out.println("response header is " + response.getWriter());
+
+
+//            return ResponseEntity.ok().build();
+            return "home";
+        }catch (Exception e){
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid credential");
+            return "redirect:/patient/login";
+        }
+
+
+
+    }
+
+    @GetMapping("/home")
+    public String home(){
+        return "home";
+    }
+
 
 
     @GetMapping("/add")

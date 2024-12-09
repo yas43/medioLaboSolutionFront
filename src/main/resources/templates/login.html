@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+</head>
+<style>
+    body{
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .login-form{
+        display:grid;
+        margin: 150px auto;
+        width: fit-content;
+        justify-items: center;
+        padding: 10px;
+        border-width: 1px;
+        border-style: solid;
+        border-color: gray;
+    }
+    .title{
+        margin: 30px 10px;
+        font-weight: bold;
+        background-color: #F69F1D;
+        width: 150px;
+        font-size: 14px;
+        text-align: center;
+        border-radius: 3px;
+        border-width: 0px;
+        padding: 12px 5px;
+        color: white;
+    }
+    .title h1{
+        margin: 0px;
+    }
+    .login{
+        margin: auto;
+    }
+
+    .textfeild{
+        border: 1px solid #E0E0E0;
+        border-radius: 3px;
+        padding: 5px;
+        margin: 10px 30px;
+        background-color: #FFFFFF;
+    }
+    .textfeild:focus{
+        outline: none;
+    }
+    .textfeild::-webkit-input-placeholder {
+        font-weight: bold;
+    }
+    .btn{
+        background-color: #207FEE;
+        color: #FFFFFF;
+        border-radius: 3px;
+        border-width: 0px;
+        padding: 5px;
+        margin: 30px 30px;
+        aspect-ratio: 18/4;
+        width: 140px;
+        font-weight: bold;
+
+    }
+</style>
+<body>
+<!--<div th:if="${param.error}">-->
+<!--    <p style="color :red">login failed.please try again</p>-->
+<!--</div>-->
+<section id="login">
+    <form th:action="@{/patient/login}" th:method="post" class="login-form" >
+        <!--        <div class="title">-->
+        <!--            <h1>LOGIN</h1>-->
+        <!--        </div>-->
+        <label for="email"></label><input class="textfeild" type="text" placeholder="username" id="email"  name="username" >
+        <label for="password"></label><input class="textfeild" type="password" placeholder="password" id="password" name="password">
+        <input type="submit" value="login" class="btn">
+    </form>
+</section>
+</body>
+</html>
+
