@@ -4,6 +4,7 @@ import com.ykestdar.mediLaboSolutionFront.DTOmodel.*;
 import com.ykestdar.mediLaboSolutionFront.service.PatientInfoService;
 import com.ykestdar.mediLaboSolutionFront.session.*;
 import jakarta.servlet.http.*;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,8 @@ import java.util.*;
 @Controller
 @RequestMapping("patient")
 public class PatientInfoController {
+    @Value("${service.url.patientAuthorizationBase}")
+    private String authenticateUrlBase;
     private final PatientInfoService patientInfoService;
     private final RestTemplate restTemplate;
     private final JwtSessionStore jwtSessionStore;
@@ -46,6 +49,7 @@ public class PatientInfoController {
         System.out.println("we are in massages/login");
 
         try {
+            String authenticationUrl = String.format("%s/authenticate",authenticateUrlBase);
             String url = "http://localhost:8082/login/authenticate";
 
             LoginForm loginForm1 = new LoginForm();
@@ -54,7 +58,7 @@ public class PatientInfoController {
 
 
 
-            ResponseEntity<String> responseToken = restTemplate.postForEntity(url, loginForm1, String.class);
+            ResponseEntity<String> responseToken = restTemplate.postForEntity(authenticationUrl, loginForm1, String.class);
             String token = responseToken.getBody();
             System.out.println("received token in frontend is "+token);
 //    System.out.println("user name when token generated is " + jwtService.getUsername(token));
