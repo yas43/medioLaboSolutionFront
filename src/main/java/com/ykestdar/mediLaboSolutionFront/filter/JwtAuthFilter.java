@@ -23,7 +23,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final CustomUserDetailService userDetailService;
     private final JwtSessionStore jwtSessionStore;
 
-    private static final Set<String> EXCLUDED_PATHS = Set.of("/messages/signUp","/messages/login");
+    private static final Set<String> EXCLUDED_PATHS = Set.of("/patient/signUp","/patient/login","/favicon.ico");
 
     public JwtAuthFilter(RestTemplate restTemplate, JwtService jwtService, CustomUserDetailService userDetailService, JwtSessionStore jwtSessionStore) {
         this.restTemplate = restTemplate;
@@ -37,28 +37,32 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+        System.out.println("request.geturi is "+request.getRequestURI());
+        if (!EXCLUDED_PATHS.contains(request.getRequestURI())) {
 
-        String sessionId = resolveSessionId(request);
+            String sessionId = resolveSessionId(request);
+            if (sessionId != null) {
+                String token = jwtSessionStore.getToken(sessionId);
+                System.out.println("session id is not null token is " + token);
+                if (token != null && jwtService.validateToken(token)) {
+                    String username = jwtService.getUsername(token);
+                    UserDetails userDetails = userDetailService.loadUserByUsername(username);
+                    System.out.println("token is valid and username is " + username);
+//                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+//                        userDetails, null, new ArrayList<>());
+//                SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        if (sessionId != null) {
-            String token = jwtSessionStore.getToken(sessionId);
-            System.out.println("session id is not null token is " + token);
-            if (token != null && jwtService.validateToken(token)) {
-                String username = jwtService.getUsername(token);
-                UserDetails userDetails = userDetailService.loadUserByUsername(username);
-                System.out.println("token is valid and username is " + username);
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, new ArrayList<>());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-
-                // Optionally renew JWT and update the session store
+                    // Optionally renew JWT and update the session store
 //                String renewedToken = jwtService.generateToken(authentication);
 //                jwtSessionStore.storeToken(sessionId, renewedToken);
+
+                    filterChain.doFilter(request, response);
+                }
+
             }
+        }else filterChain.doFilter(request,response);
 
-        }
-
-        filterChain.doFilter(request, response);
+//        filterChain.doFilter(request, response);
     }
 
 
