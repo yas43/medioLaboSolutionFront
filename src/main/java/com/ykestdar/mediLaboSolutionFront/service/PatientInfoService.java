@@ -2,7 +2,10 @@ package com.ykestdar.mediLaboSolutionFront.service;
 
 import com.ykestdar.mediLaboSolutionFront.DTOmodel.PatientInfo;
 import com.ykestdar.mediLaboSolutionFront.DTOmodel.Prescription;
+import jakarta.servlet.http.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.core.*;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.*;
 import org.springframework.web.util.*;
@@ -34,17 +37,6 @@ public class PatientInfoService {
          return list;
 
 
-//        List<PatientInfo> list = new LinkedList<>();
-//        PatientInfo patientInfo = new PatientInfo();
-//        patientInfo.setId(1);
-//        patientInfo.setFirstname("nameTest");
-//        patientInfo.setLastname("lastnameTest");
-//        patientInfo.setAddress("addressTest");
-//        patientInfo.setBirthdate(LocalDate.now());
-//        patientInfo.setGender("male");
-//        patientInfo.setPhoneNumber("888888888");
-//        list.add(patientInfo);
-//        return list;
     }
 
     //id data type need to convert to Integer for test purpose it consider String
@@ -85,23 +77,11 @@ public class PatientInfoService {
          return patientInfo1;
 
 
-//        PatientInfo patientInfo = new PatientInfo();
-//        patientInfo.setId(1);
-//        patientInfo.setFirstname("testfirstname");
-//        patientInfo.setLastname("testlastname");
-//        patientInfo.setGender("female");
-//        patientInfo.setPhoneNumber("77777777");
-//        patientInfo.setBirthdate(LocalDate.now());
-//        patientInfo.setAddress("address test");
-//        patientInfo.setPhoneNumber("333333333");
-//
-//        return patientInfo;
     }
 
     public PatientInfo addPatient(PatientInfo patientInfo) {
         String addUrl = String.format("%s/add",patientInfoUrlBase);
         PatientInfo patientInfo1 = new PatientInfo();
-//        patientInfo1.setId(patientInfo.getId());
         patientInfo1.setBirthdate(patientInfo.getBirthdate());
         patientInfo1.setGender(patientInfo.getGender());
         patientInfo1.setLastname(patientInfo.getLastname());
@@ -110,19 +90,7 @@ public class PatientInfoService {
         patientInfo1.setPhoneNumber(patientInfo.getPhoneNumber());
 
       return   restTemplate.postForObject(addUrl,patientInfo,PatientInfo.class);
-//        PatientInfo patientInfo2 = restTemplate.getForObject("http://localhost:8080/patient_info/add",PatientInfo.class);
 
-//        return patientInfo2;
-
-//        PatientInfo patientInfo1 = new PatientInfo();
-//        patientInfo1.setId(1);
-//        patientInfo1.setFirstname("testfirstname");
-//        patientInfo1.setLastname("testlastname");
-//        patientInfo1.setBirthdate(LocalDate.of(1980 ,12, 20));
-//        patientInfo1.setAddress("test address");
-//        patientInfo1.setPhoneNumber("testphone77777");
-//        patientInfo1.setGender("male");
-//        return patientInfo1;
     }
 
     public void addPrescription(Integer id,String note) {
@@ -163,32 +131,7 @@ public class PatientInfoService {
 
          return allTheNotes;
 
-//       List<Prescription> list = restTemplate.postForObject("http://localhost:8086/prescription/prescriptions",id,List.class);
-//       return list;
 
-
-//        List<Prescription> list = new LinkedList<>();
-//
-//        Prescription prescription = new Prescription();
-//        prescription.setId(5);
-//        prescription.setNote("prescription of a patient");
-//        prescription.setIssuedDate(LocalDateTime.now());
-//
-//        Prescription prescription1 = new Prescription();
-//        prescription1.setId(5);
-//        prescription1.setNote("prescription of a patient");
-//        prescription1.setIssuedDate(LocalDateTime.now());
-//
-//        Prescription prescription2 = new Prescription();
-//        prescription2.setId(5);
-//        prescription2.setNote("prescription of a patient");
-//        prescription2.setIssuedDate(LocalDateTime.now());
-//
-//
-//        list.add(prescription);
-//        list.add(prescription1);
-//        list.add(prescription2);
-//        return list;
     }
 
     public String riskLevelCalculator(Integer id) {
@@ -232,5 +175,17 @@ public class PatientInfoService {
         Prescription prescription = restTemplate.getForObject(url,Prescription.class,uriVariable);
         return prescription;
 
+    }
+
+    private String resolveSessionId(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("SESSIONID".equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
     }
 }

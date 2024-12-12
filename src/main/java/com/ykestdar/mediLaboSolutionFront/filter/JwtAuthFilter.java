@@ -56,6 +56,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 //                String renewedToken = jwtService.generateToken(authentication);
 //                jwtSessionStore.storeToken(sessionId, renewedToken);
 
+
+
+                    response.setHeader(HttpHeaders.AUTHORIZATION,"bearer "+token);
+                    System.out.println("inside front pre filter and response.getheader(httprequest.auth))is  "+response.getHeader(HttpHeaders.AUTHORIZATION));
+
                     filterChain.doFilter(request, response);
                 }
 
