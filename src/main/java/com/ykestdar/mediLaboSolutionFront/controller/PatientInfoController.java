@@ -115,6 +115,8 @@ public class PatientInfoController {
     public String addPatient(@ModelAttribute("patientInfo")PatientInfo patientInfo,RedirectAttributes redirectAttributes,Model model,HttpServletResponse response){
         try {
 
+            System.out.println("inside front controller try/add token is "+response.getHeader(HttpHeaders.AUTHORIZATION).substring(7) );
+
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", "Bearer " +response.getHeader(HttpHeaders.AUTHORIZATION).substring(7) );
 
@@ -157,6 +159,7 @@ public class PatientInfoController {
 //            System.out.println(patientInfo);
             return "redirect:/patient/display";
         }catch (Exception e){
+            System.out.println("inside front controller catch/add token is"+response.getHeader(HttpHeaders.AUTHORIZATION).substring(7));
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", "Bearer " +response.getHeader(HttpHeaders.AUTHORIZATION).substring(7) );
             HttpEntity<String> entity = new HttpEntity<>(headers);
@@ -209,6 +212,8 @@ public class PatientInfoController {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " +response.getHeader(HttpHeaders.AUTHORIZATION).substring(7) );
 
+        System.out.println("inside front /update/id method token is "+response.getHeader(HttpHeaders.AUTHORIZATION).substring(7));
+
         String findPatientUrl = String.format("%s/findById/%d",patientInfoUrlBase,id);
         Map<String,Object> uriVariable = new HashMap<>();
         uriVariable.put("id",id);
@@ -246,6 +251,8 @@ public class PatientInfoController {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " +response.getHeader(HttpHeaders.AUTHORIZATION).substring(7) );
 
+        System.out.println("inside front /update method token is "+response.getHeader(HttpHeaders.AUTHORIZATION).substring(7));
+
         String updateUrl = String.format("%s/update",patientInfoUrlBase);
         String url = UriComponentsBuilder.fromHttpUrl(updateUrl)
                 .queryParam("id",id)
@@ -273,6 +280,7 @@ public class PatientInfoController {
         }catch (Exception e){
             redirectAttributes.addFlashAttribute("error","user information not updated please try again");
 
+            System.out.println("inside front /update.catch method token is "+response.getHeader(HttpHeaders.AUTHORIZATION).substring(7));
             String findPatientUrl = String.format("%s/findById/%d",patientInfoUrlBase,id);
             Map<String,Object> uriVariable = new HashMap<>();
             uriVariable.put("id",id);
@@ -300,7 +308,7 @@ public class PatientInfoController {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " +response.getHeader(HttpHeaders.AUTHORIZATION).substring(7) );
 
-
+        System.out.println("inside front control addPrescription and injected token is "+response.getHeader(HttpHeaders.AUTHORIZATION).substring(7));
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
@@ -319,6 +327,7 @@ public class PatientInfoController {
         model.addAttribute("currentPatientId",id);
 
 
+
         String prescriptionUrl = String.format("%s/prescriptions/%d",patientPrescriptionUrlBase,id);
         Map<String,Object> uriVariableForPrescriptions = new HashMap<>();
         uriVariableForPrescriptions.put("id",id);
@@ -328,30 +337,30 @@ public class PatientInfoController {
                 prescriptionUrl,
                 HttpMethod.GET,
                 entity,
-                new ParameterizedTypeReference<List<String>>() {},
-                uriVariableForPrescriptions
-        );
+                new ParameterizedTypeReference<List<String>>() {});
 
-
+        System.out.println("inside front add Prescription method and notes are "+displayPrescriptionEntity.getBody());
 
         model.addAttribute("notes",displayPrescriptionEntity.getBody());
 //        model.addAttribute("notes",patientInfoService.displayAllPrescription(id));
 
+        HttpEntity<String> entity1 = new HttpEntity<>(headers);
 
         String riskLevelUrl = String.format("%s/score/%d",patientAnalyseUrlBase,id);
         Map<String,Object> uriVariableForRiskLevel = new HashMap<>();
         uriVariableForRiskLevel.put("id",id);
 
+        HttpEntity<String> riskLevelEntity = new HttpEntity<>(headers);
 
-        ResponseEntity<String> riskLevelEntity = restTemplate.exchange(
+
+        ResponseEntity<Integer> responseEntity = restTemplate.exchange(
                 riskLevelUrl,
                 HttpMethod.GET,
-                entity,
-                String.class,
-                uriVariableForRiskLevel);
+                entity1,
+                Integer.class);
 
 
-        model.addAttribute("riskLevel",riskLevelEntity.getBody());
+        model.addAttribute("riskLevel",responseEntity.getBody().toString());
 //        model.addAttribute("riskLevel",patientInfoService.riskLevelCalculator(id));
         return "prescription";
     }
@@ -367,7 +376,7 @@ public class PatientInfoController {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " +response.getHeader(HttpHeaders.AUTHORIZATION).substring(7) );
 
-
+        System.out.println("inside front /addPrescription/id and token is "+response.getHeader(HttpHeaders.AUTHORIZATION).substring(7));
 
         String addPrescriptionUrl = String.format("%s/addPrescription/%d",patientPrescriptionUrlBase,id);
         Map<String,Object> prescriptionUriVariable = new HashMap<>();
@@ -400,6 +409,8 @@ public class PatientInfoController {
 //            return "prescription";
             model.addAttribute("currentPatientId",id);
 
+            System.out.println("inside front try/addPrescriptionId and token.from heasers  is "+headers.get(HttpHeaders.AUTHORIZATION.substring(7)));
+
             String prescriptionsUrl = String.format("%s/prescriptions/%d",patientPrescriptionUrlBase,id);
             HttpEntity<String> allPrescriptionEntity = new HttpEntity<>(headers);
 
@@ -415,11 +426,12 @@ public class PatientInfoController {
 
 
             String riskLevelUrl = String.format("%s/score/%d",patientAnalyseUrlBase,id);
+            HttpEntity<String> riskLevelEntity = new HttpEntity<>(headers);
 
             ResponseEntity<Integer> riskLevelResponseEntity = restTemplate.exchange(
                     riskLevelUrl,
                     HttpMethod.GET,
-                    allPrescriptionEntity,
+                    riskLevelEntity,
                     Integer.class);
 
             model.addAttribute("riskLevel",riskLevelResponseEntity.getBody());
@@ -431,6 +443,7 @@ public class PatientInfoController {
 //            return "prescription";
             model.addAttribute("currentPatientId",id);
 
+            System.out.println("inside front catch/addPrescriptionId and token.from heasers  is "+headers.get(HttpHeaders.AUTHORIZATION.substring(7)));
 
             String prescriptionsUrl = String.format("%s/prescriptions/%d",patientPrescriptionUrlBase,id);
             HttpEntity<String> allPrescriptionEntity = new HttpEntity<>(headers);
@@ -447,6 +460,7 @@ public class PatientInfoController {
 
 
             String riskLevelUrl = String.format("%s/score/%d",patientAnalyseUrlBase,id);
+            HttpEntity<String> riskLevelEntity = new HttpEntity<>(headers);
 
             ResponseEntity<Integer> riskLevelResponseEntity = restTemplate.exchange(
                     riskLevelUrl,
