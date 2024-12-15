@@ -465,8 +465,10 @@ public class PatientInfoController {
             ResponseEntity<Integer> riskLevelResponseEntity = restTemplate.exchange(
                     riskLevelUrl,
                     HttpMethod.GET,
-                    allPrescriptionEntity,
+                    riskLevelEntity,
                     Integer.class);
+
+            System.out.println("inside front controller scor(risklevel.getid) is: "+riskLevelResponseEntity.getBody());
 
             model.addAttribute("riskLevel",riskLevelResponseEntity.getBody());
 
