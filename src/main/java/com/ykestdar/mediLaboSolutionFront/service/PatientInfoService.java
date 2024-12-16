@@ -39,7 +39,7 @@ public class PatientInfoService {
 
     }
 
-    //id data type need to convert to Integer for test purpose it consider String
+
     public PatientInfo updatePatient(Integer id,String firstname,String lastname,String gender,
                                      LocalDate birthdate,String address,String phoneNumber) {
 
@@ -109,12 +109,11 @@ public class PatientInfoService {
                     prescription12.setNote(new ArrayList<>());
                 }
                 prescription12.getNote().add(note);
-//        System.out.println("prescription.getId is "+ prescription.getId());
-//        System.out.println("prescription.getNote is "+prescription.getNote());
+
          restTemplate.postForObject(url,prescription12,Prescription.class,uriVariable);
 
 
-//        return prescription1;
+
     }
 
     public List<String> displayAllPrescription(Integer id) {
@@ -146,7 +145,7 @@ public class PatientInfoService {
 
         return String.valueOf(score);
 
-//        return "borderline";
+
     }
 
     public PatientInfo getPatientById(Integer id) {
@@ -163,7 +162,7 @@ public class PatientInfoService {
         return patientInfo;
 
 //       PatientInfo patientInfo = restTemplate.getForObject("http://localhost:8085/patient_info/findById",PatientInfo.class);
-//       return patientInfo;
+
     }
 
     public Prescription findPrescriptionById(Integer id) {

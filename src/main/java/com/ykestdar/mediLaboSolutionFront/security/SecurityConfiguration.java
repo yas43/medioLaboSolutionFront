@@ -21,11 +21,10 @@ import org.springframework.security.web.authentication.*;
 public class SecurityConfiguration {
     private final CustomUserDetailService customUserDetailService;
     private final JwtAuthFilter jwtAuthFilter;
-//    private final JwtTokenFilter jwtTokenFilter;
+
 
     public SecurityConfiguration(CustomUserDetailService customUserDetailService, JwtAuthFilter jwtAuthFilter) {
         this.customUserDetailService = customUserDetailService;
-//        this.jwtTokenFilter = jwtTokenFilter;
         this.jwtAuthFilter = jwtAuthFilter;
     }
 
@@ -34,17 +33,9 @@ public class SecurityConfiguration {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(registry -> {
-//                    registry.requestMatchers("patient/signUp","patient/login","patient/home").permitAll();
                     registry.anyRequest().permitAll();
-//                    registry.anyRequest().authenticated();
                 })
-//                .formLogin(httpSecurityFormLoginConfigurer -> {
-//                    httpSecurityFormLoginConfigurer
-//                            .loginPage("/patient/login")
-//                            .defaultSuccessUrl("/patient/login",true)
-//                            .successHandler(new AuthenticationSuccessHandler());
-//                })
-//                .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

@@ -313,15 +313,6 @@ public class PatientInfoController {
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
 
-//        ResponseEntity<Prescription> findPrescriptionByIdEntity = restTemplate.exchange(
-//                displayUrl,
-//                HttpMethod.GET,
-//                entity,
-//                Prescription.class
-//        );
-
-
-
         model.addAttribute(new Prescription());
 //        model.addAttribute("prescription",patientInfoService.findPrescriptionById(id));
         model.addAttribute("currentPatientId",id);
@@ -403,10 +394,9 @@ public class PatientInfoController {
 
             prescriptionResponseEntity.getBody();
 
-//            patientInfoService.addPrescription(id, note);
+
             redirectAttributes.addFlashAttribute("success","prescription added successfully");
-//            model.addAttribute("currentPatientId",id);
-//            return "prescription";
+
             model.addAttribute("currentPatientId",id);
 
             System.out.println("inside front try/addPrescriptionId and token.from heasers  is "+headers.get(HttpHeaders.AUTHORIZATION.substring(7)));
@@ -439,8 +429,7 @@ public class PatientInfoController {
             return "prescription";
         }catch (Exception e){
             redirectAttributes.addFlashAttribute("error","prescription not added try again");
-//            model.addAttribute("currentPatientId",id);
-//            return "prescription";
+
             model.addAttribute("currentPatientId",id);
 
             System.out.println("inside front catch/addPrescriptionId and token.from heasers  is "+headers.get(HttpHeaders.AUTHORIZATION.substring(7)));

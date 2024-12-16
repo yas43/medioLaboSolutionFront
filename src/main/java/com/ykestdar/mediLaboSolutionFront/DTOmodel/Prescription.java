@@ -16,5 +16,5 @@ import java.util.*;
 public class Prescription {
     Integer id;
    List<String> note;
-//    LocalDateTime issuedDate;
+
 }

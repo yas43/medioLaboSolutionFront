@@ -16,11 +16,6 @@ public class CustomUserDetailService implements UserDetailsService {
     public CustomUserDetailService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
-//    private final LoginFormRepository loginFormRepository;
-
-//    public CustomUserDetailService(LoginFormRepository loginFormRepository) {
-//        this.loginFormRepository = loginFormRepository;
-//    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -32,7 +27,6 @@ public class CustomUserDetailService implements UserDetailsService {
                 .toUriString();
 
         LoginForm loginForm = restTemplate.getForObject(url,LoginForm.class);
-//                .orElseThrow(()->new RuntimeException("username not founded"));
 
         UserDetails userDetails = User.builder()
                 .username(loginForm.getUsername())

@@ -47,19 +47,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 if (token != null && jwtService.validateToken(token)) {
                     String username = jwtService.getUsername(token);
                     UserDetails userDetails = userDetailService.loadUserByUsername(username);
-                    System.out.println("token is valid and username is " + username);
-//                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-//                        userDetails, null, new ArrayList<>());
-//                SecurityContextHolder.getContext().setAuthentication(authentication);
-
-                    // Optionally renew JWT and update the session store
-//                String renewedToken = jwtService.generateToken(authentication);
-//                jwtSessionStore.storeToken(sessionId, renewedToken);
-
-
 
                     response.setHeader(HttpHeaders.AUTHORIZATION,"bearer "+token);
-                    System.out.println("inside front pre filter and response.getheader(httprequest.auth))is  "+response.getHeader(HttpHeaders.AUTHORIZATION));
 
                     filterChain.doFilter(request, response);
                 }
@@ -67,24 +56,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             }
         }else filterChain.doFilter(request,response);
 
-//        filterChain.doFilter(request, response);
+
     }
 
-
-    private Boolean isValidToken(String token){
-        String baseUrl = "http://localhost:8084/login/validate";
-        String url = UriComponentsBuilder.fromHttpUrl(baseUrl)
-                .queryParam("token", token)
-                .toUriString();
-        System.out.println("hello im here");
-        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-        if (response.getBody().equals("Valid")) {
-            System.out.println("inside validation of token , token is valid ");
-            return true;
-        }
-        System.out.println("inside validation of token , token is  not valid ");
-        return false;
-    }
 
 
     private String resolveSessionId(HttpServletRequest request) {
