@@ -344,11 +344,11 @@ public class PatientInfoController {
         HttpEntity<String> riskLevelEntity = new HttpEntity<>(headers);
 
 
-        ResponseEntity<Integer> responseEntity = restTemplate.exchange(
+        ResponseEntity<String> responseEntity = restTemplate.exchange(
                 riskLevelUrl,
                 HttpMethod.GET,
                 entity1,
-                Integer.class);
+                String.class);
 
 
         model.addAttribute("riskLevel",responseEntity.getBody().toString());
@@ -418,11 +418,11 @@ public class PatientInfoController {
             String riskLevelUrl = String.format("%s/score/%d",patientAnalyseUrlBase,id);
             HttpEntity<String> riskLevelEntity = new HttpEntity<>(headers);
 
-            ResponseEntity<Integer> riskLevelResponseEntity = restTemplate.exchange(
+            ResponseEntity<String> riskLevelResponseEntity = restTemplate.exchange(
                     riskLevelUrl,
                     HttpMethod.GET,
                     riskLevelEntity,
-                    Integer.class);
+                    String.class);
 
             model.addAttribute("riskLevel",riskLevelResponseEntity.getBody());
 //            model.addAttribute("riskLevel",patientInfoService.riskLevelCalculator(id));
@@ -451,11 +451,11 @@ public class PatientInfoController {
             String riskLevelUrl = String.format("%s/score/%d",patientAnalyseUrlBase,id);
             HttpEntity<String> riskLevelEntity = new HttpEntity<>(headers);
 
-            ResponseEntity<Integer> riskLevelResponseEntity = restTemplate.exchange(
+            ResponseEntity<String> riskLevelResponseEntity = restTemplate.exchange(
                     riskLevelUrl,
                     HttpMethod.GET,
                     riskLevelEntity,
-                    Integer.class);
+                    String.class);
 
             System.out.println("inside front controller scor(risklevel.getid) is: "+riskLevelResponseEntity.getBody());
 
